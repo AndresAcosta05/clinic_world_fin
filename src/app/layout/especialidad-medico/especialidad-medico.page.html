@@ -1,57 +1,55 @@
-<div class="contenedor">
-    <app-header [title]="nombre"></app-header>
-    <form class="formulario" [formGroup]="formAsignaciones">
-        <ion-avatar>
-            <img src="https://gravatar.com/avatar/dba6bae8c566f9d4041fb9cd9ada7741?d=identicon&f=y">
-        </ion-avatar>
-        <ion-item>
-            <ion-label>Medico</ion-label>
-            <div class="content-select">
-                <select formControlName="idUsuario">
-                    <option *ngFor="let medico of selectMedicos" value="{{medico.idUsuario}}">{{ medico.nombre }} {{
-                        medico.apellido }}</option>
-                </select>
-            </div>
-            <!-- content select -->
-        </ion-item>
-        <ion-item>
-            <ion-label>Especialidad</ion-label>
-            <div class="content-select">
-                <select formControlName="idEspecialidad">
-                    <option *ngFor="let especialidad of selectCitas" value="{{especialidad.idEspecialidad}}">{{
-                        especialidad.nombre }}</option>
-                </select>
-            </div>
-            <!-- content select -->
-        </ion-item>
-
-        <section>
-            <ion-button color="success" (click)="insertEspMedico(formAsignaciones.value)">Guardar</ion-button>
-            <ion-button color="primary" (click)="udpateEspMedico(formAsignaciones.value)">Actualizar</ion-button>
-        </section>
-    </form>
-    <ion-list>
-        <ion-list-header>
-            <ion-toolbar>
-                <header class="titulo">Asignaciones Registrados</header>
-                <!-- <ion-button slot="end" size="small" color="success" fill="solid">Registrar Nuevo</ion-button> -->
-            </ion-toolbar>
-        </ion-list-header>
-
-        <ion-item *ngFor="let espMedico of espMedicoList">
-            <ion-toolbar>
-                <ion-avatar slot="start">
-                    <img src="https://gravatar.com/avatar/dba6bae8c566f9d4041fb9cd9ada7741?d=identicon&f=y">
-                </ion-avatar>
-                <ion-label>
-                    <h3>Medico:{{ espMedico.medico }}</h3>
-                    <h3>Especialidad: {{ espMedico.especialidad }}</h3>
-                </ion-label>
-                <ion-button (click)="seleccionarEspMedico(espMedico)" slot="end" size="small" color="primary"
-                    fill="solid">Editar</ion-button>
-                <ion-button (click)="deleteEspMedico(espMedico.codigo_esp_med, espMedico.medico, espMedico.especialidad)"
-                    slot="end" size="small" color="danger" fill="solid">Eliminar</ion-button>
-            </ion-toolbar>
-        </ion-item>
-    </ion-list>
-</div>
+<ion-app>
+<ion-content>
+    <div class="contenedor">
+        <app-header [title]="nombre"></app-header>
+        <form class="formulario" [formGroup]="formAsignaciones">
+            <ion-avatar>
+                <img src="https://gravatar.com/avatar/dba6bae8c566f9d4041fb9cd9ada7741?d=identicon&f=y">
+            </ion-avatar>
+            <ion-item>
+                <ion-label>Medico</ion-label>
+                    <select formControlName="idUsuario">
+                        <option *ngFor="let medico of selectMedicos" value="{{medico.idUsuario}}">{{ medico.nombre }} {{
+                            medico.apellido }}</option>
+                    </select>
+            </ion-item>
+            <ion-item>
+                <ion-label>Especialidad</ion-label>
+                    <select formControlName="idEspecialidad">
+                        <option *ngFor="let especialidad of selectEspecialidades" value="{{especialidad.idEspecialidad}}">{{
+                            especialidad.nombre }}</option>
+                    </select>
+            </ion-item>
+    
+            <section>
+                <ion-button color="success" (click)="insertEspMedico(formAsignaciones.value)">Guardar</ion-button>
+                <ion-button color="primary" (click)="udpateEspMedico(formAsignaciones.value)">Actualizar</ion-button>
+            </section>
+        </form>
+        <ion-list>
+            <ion-list-header>
+                <ion-toolbar>
+                    <header class="titulo">Asignaciones Registrados</header>
+                    <!-- <ion-button slot="end" size="small" color="success" fill="solid">Registrar Nuevo</ion-button> -->
+                </ion-toolbar>
+            </ion-list-header>
+    
+            <ion-item *ngFor="let espMedico of espMedicoList">
+                <ion-toolbar>
+                    <ion-avatar slot="start">
+                        <img src="https://gravatar.com/avatar/dba6bae8c566f9d4041fb9cd9ada7741?d=identicon&f=y">
+                    </ion-avatar>
+                    <ion-label>
+                        <h3>Medico:{{ espMedico.medico }}</h3>
+                        <h3>Especialidad: {{ espMedico.especialidad }}</h3>
+                    </ion-label>
+                    <ion-button (click)="seleccionarEspMedico(espMedico)" slot="end" size="small" color="primary"
+                        fill="solid">Editar</ion-button>
+                    <ion-button (click)="deleteEspMedico(espMedico.codigo_esp_med, espMedico.medico, espMedico.especialidad)"
+                        slot="end" size="small" color="danger" fill="solid">Eliminar</ion-button>
+                </ion-toolbar>
+            </ion-item>
+        </ion-list>
+    </div>
+</ion-content>
+</ion-app>

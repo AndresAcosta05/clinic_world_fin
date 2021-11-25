@@ -22,7 +22,7 @@ export class EspecialidadMedicoPage implements OnInit {
     fecha: ''
   };
   //Variables para los selects
-  selectCitas: any = [];
+  selectEspecialidades: any = [];
   selectMedicos: any = [];
 
   constructor(
@@ -46,7 +46,7 @@ export class EspecialidadMedicoPage implements OnInit {
 
   getEspecialidades() {
     this.especialidadesService.getEspecialidades().subscribe(data => {
-      this.selectCitas = data ? data : [];
+      this.selectEspecialidades = data ? data : [];
       // console.log(this.selectCitas);
     });
   }

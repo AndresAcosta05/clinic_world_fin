@@ -14,7 +14,7 @@ export class TiposUsuariosService {
   ) { }
 
   getAllTipoUsuarios() {
-    return this.http.get(`${this.url}getAlltipo_usuarios`);
+    return this.http.get(`${this.url}getAlltipo`);
   }
 
   Insertar(tipousuario: any): Observable<any> {
