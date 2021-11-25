@@ -1,0 +1,81 @@
+<div class="contenedor">
+    <app-header [title]="nombre"></app-header>
+    <form class="formulario" [formGroup]="formClientes">
+        <ion-avatar>
+            <img src="https://gravatar.com/avatar/dba6bae8c566f9d4041fb9cd9ada7741?d=identicon&f=y">
+          </ion-avatar>
+            <ion-item>
+                <ion-label>Tipo Documento</ion-label>
+                <ion-select formControlName="tipo_documento">
+                  <ion-select-option value="CC">CC</ion-select-option>
+                  <ion-select-option value="TI">TI</ion-select-option>
+                </ion-select>
+              </ion-item>
+            <ion-item>
+                <ion-label position="floating">Documento</ion-label>
+                <ion-input type="number" formControlName="numero_documento"></ion-input>
+            </ion-item>
+            <ion-item>
+                <ion-label position="floating">Nombre</ion-label>
+                <ion-input formControlName="nombre"></ion-input>
+            </ion-item>
+            <ion-item>
+                <ion-label position="floating">Segundo Nombre</ion-label>
+                <ion-input formControlName="segundo_nombre"></ion-input>
+            </ion-item>
+            <ion-item>
+                <ion-label position="floating">Apellido</ion-label>
+                <ion-input formControlName="apellido"></ion-input>
+              </ion-item>
+              <ion-item>
+                <ion-label position="floating">Segundo Apellido</ion-label>
+                <ion-input formControlName="segundo_apellido"></ion-input>
+              </ion-item>
+              <ion-item>
+                <ion-label position="floating">Edad</ion-label>
+                <ion-input formControlName="edad"></ion-input>
+              </ion-item>
+              <ion-item>
+                <ion-label position="floating">Direccion</ion-label>
+                <ion-input formControlName="direccion"></ion-input>
+              </ion-item>
+              <ion-item>
+                <ion-label position="floating">Correo</ion-label>
+                <ion-input formControlName="correo"></ion-input>
+              </ion-item>
+              <ion-item>
+                <ion-label position="floating">Telefono</ion-label>
+                <ion-input type="number" formControlName="telefono"></ion-input>
+              </ion-item>
+              <section>
+                <ion-button color="success" (click)="insertCliente(formClientes.value)">Guardar</ion-button>
+                <ion-button color="primary" (click)="actualizarCliente(formClientes.value)">Actualizar</ion-button>
+              </section>
+    </form>
+    <ion-list>
+        <ion-list-header>
+            <ion-toolbar>
+                <header class="titulo">Clientes Registrados</header>
+                <!-- <ion-button slot="end" size="small" color="success" fill="solid">Registrar Nuevo</ion-button> -->
+            </ion-toolbar>
+        </ion-list-header>
+
+        <ion-item *ngFor="let cliente of clientesList">
+            <ion-toolbar>
+                <ion-avatar slot="start">
+                    <img src="https://gravatar.com/avatar/dba6bae8c566f9d4041fb9cd9ada7741?d=identicon&f=y">
+                </ion-avatar>
+                <ion-label>
+                    <h3>Documento:{{ cliente.tipo_documento }} {{ cliente.numero_documento }}</h3>
+                    <h3>Nombres: {{ cliente.nombre }} {{ cliente.segundo_nombre }}</h3>
+                    <h3>Apellidos: {{ cliente.apellido }} {{ cliente.segundo_apellido }}</h3>
+                    <h3>Email:{{ cliente.correo }} Tel:{{ cliente.telefono }}</h3>
+                </ion-label>
+                <ion-button (click)="seleccionar(cliente)" slot="end" size="small" 
+                color="primary" fill="solid">Editar</ion-button>
+                <ion-button (click)="eliminarCliente(cliente.numero_documento, cliente.nombre, cliente.apellido)"
+                slot="end" size="small" color="danger" fill="solid">Eliminar</ion-button>
+            </ion-toolbar>
+        </ion-item>
+    </ion-list>
+</div>
