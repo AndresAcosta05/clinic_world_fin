@@ -1,1 +1,58 @@
-<app-header [title]="nombre"></app-header>
+
+<ion-header>
+  <ion-toolbar>
+    <ion-title>TIPO USUARIO</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+ <p class="ion-text-center">
+    <img src="https://cdn.icon-icons.com/icons2/39/PNG/128/bootloader_users_person_people_6080.png" >
+  </p>
+<form [formGroup]="formTipo_usuario">
+  <ion-item>
+    <ion-label position="floating">
+      Nombre 
+    </ion-label>
+    <ion-input type="text" formControlName="nombre"></ion-input>
+  </ion-item>
+  <ion-item>
+    <ion-label position="floating">
+      Descripción
+    </ion-label>
+    <ion-input type="text" formControlName="descripcion"></ion-input>
+  </ion-item>
+   
+              <section>
+                <ion-button color="success" (click)="inserttipousarios(formTipo_usuario.value)">Guardar</ion-button>
+                <ion-button color="primary" (click)="actualizartipousarios(formClientes.value)">Actualizar</ion-button>
+              </section>
+  <p class="ion-text-center">
+    <ion-button (click)="alta(formTipo_usuario.value)"  >Agregar TIPO USUARIO</ion-button>
+    </p>
+</form>
+   <ion-list>
+        <ion-list-header>
+            <ion-toolbar>
+                <header class="titulo">Tipos de Usuarios Registrados</header>
+                <!-- <ion-button slot="end" size="small" color="success" fill="solid">Registrar Nuevo</ion-button> -->
+            </ion-toolbar>
+        </ion-list-header>
+
+        <ion-item *ngFor="let tipousuarios of tipousuariosList">
+            <ion-toolbar>
+                <ion-avatar slot="start">
+                    <img src="https://gravatar.com/avatar/dba6bae8c566f9d4041fb9cd9ada7741?d=identicon&f=y">
+                </ion-avatar>
+                <ion-label>
+                    <h3>Nombre:{{ tipousuarios.nombre }} {{ tipousuarios.nombre }}</h3>
+                    <h3>Descripción: {{ tipousuarios.descripcion}} {{tipousuarios.descripcion }}</h3>
+               </ion-label>
+                <ion-button (click)="seleccionar(nombre)" slot="end" size="small" 
+                color="primary" fill="solid">Editar</ion-button>
+                <ion-button (click)="eliminartipousuarios(tipousuarios.nombre, tipousuarios.descripcion)"
+                slot="end" size="small" color="danger" fill="solid">Eliminar</ion-button>
+            </ion-toolbar>
+        </ion-item>
+    </ion-list>
+</ion-content>
