@@ -316,7 +316,7 @@ def getAllcliente():
        content = {}
      return jsonify(payload)
     else:
-         return jsonify('No hay Informacion Agregada Aun')
+         return jsonify([])
 
 # ruta para consultar por parametro
 @cross_origin()
@@ -411,7 +411,7 @@ def updateCliente(documento):
 @cross_origin()
 @app.route('/deleteCliente/<documento>', methods = ['DELETE'])
 def deleteCliente(documento):
-    print(type(documento))
+    # print(type(documento))
     con = mysql.connection.cursor()
     con.execute("DELETE FROM clientes WHERE numero_documento = %s" %documento)
     mysql.connection.commit()
@@ -435,7 +435,7 @@ def getAllespecialidad():
         content = {}
         for result in res:
             content = {
-                'idTipo_usuario': result[0],
+                'idEspecialidad': result[0],
                 'nombre': result[1],
                 'descripcion': result[2]
             }
@@ -487,7 +487,7 @@ def addEspecialidad():
 
 #QUERY DE ACTUALIZACION
 @cross_origin()
-@app.route('/updateEspelcialidad/<id>', methods=['PUT'])
+@app.route('/updateEspecialidad/<id>', methods=['PUT'])
 def updateEspecialidad(id):
     nombre = request.json['nombre'],
     descripcion = request.json['descripcion']
@@ -520,7 +520,7 @@ def deleteEspecialidad(id):
 @app.route('/getAllEsp_medico', methods=['GET'])
 def getAllEsp_medico():
     con = mysql.connection.cursor()
-    con.execute('SELECT idEspecialidad_medico, concat(usuarios.nombre, " ", usuarios.apellido) as usuario, especialidad.nombre as especialidad, fecha_creacion FROM especialidad_medico,' +
+    con.execute('SELECT idEspecialidad_medico, concat(usuarios.nombre, " ", usuarios.apellido) as usuario, especialidad.nombre as especialidad, fecha_creacion, especialidad_medico.idUsuario, especialidad_medico.idEspecialidad,  especialidad_medico.codigo_esp_med FROM especialidad_medico,' +
     'especialidad, usuarios WHERE especialidad_medico.idEspecialidad = especialidad.idEspecialidad ' + 
     'AND especialidad_medico.idUsuario = usuarios.idUsuario')
     res = con.fetchall()
@@ -535,7 +535,10 @@ def getAllEsp_medico():
                 'idEspecialidad_medico': result[0],
                 'medico': result[1],
                 'especialidad': result[2],
-                'Fecha de creacion': result[3]
+                'Fecha de creacion': result[3],
+                'idUsuario': result[4],
+                'idEspecialidad': result[5],
+                'codigo_esp_med': result[6]
             }
             payload.append(content)
             content = {}
@@ -581,7 +584,16 @@ def addEsp_medico():
         idEspecialidad = request.json['idEspecialidad'],
         fecha = request.json['fecha']
         con = mysql.connection.cursor()
-        con.execute("INSERT INTO especialidad_medico(idUsuario, idEspecialidad, fecha_creacion) VALUES (%s, %s, %s)", (idUsuario, idEspecialidad, fecha))
+        #CREAMOS ESTA CONSULTA PARA TRAER EL ULTIMO ID PARA LA LLAVE UNICA
+        con.execute('SELECT CONCAT( "ESPMED", MAX(LAST_INSERT_ID(idEspecialidad_medico)) +1) FROM especialidad_medico')
+        res = con.fetchall()
+        print(res)
+        if(res[0][0]):
+            codigo = res[0][0]
+        else:
+            codigo = "ESPMED1"
+        #QUERY
+        con.execute("INSERT INTO especialidad_medico(idUsuario, idEspecialidad, fecha_creacion, codigo_esp_med) VALUES (%s, %s, %s, %s)", (idUsuario, idEspecialidad, fecha, codigo))
         mysql.connection.commit()
         return jsonify({"Mensaje" : "Dato Insertado Correctamente"})
 
@@ -589,19 +601,17 @@ def addEsp_medico():
 
 #QUERY DE ACTUALIZACION
 @cross_origin()
-@app.route('/updateEsp_medico/<id>', methods=['PUT'])
-def updateEsp_medico(id):
+@app.route('/updateEsp_medico/<codigo>', methods=['PUT'])
+def updateEsp_medico(codigo):
     idUsuario = request.json['idUsuario'],
     idEspecialidad = request.json['idEspecialidad']
-    fecha = request.json['fecha']
     con = mysql.connection.cursor()
     con.execute("""
         UPDATE especialidad_medico
         SET idUsuario = %s,
-            idEspecialidad = %s,
-            fecha_creacion = %s
-        WHERE idEspecialidad_medico = %s
-    """, (idUsuario, idEspecialidad, fecha, id))
+            idEspecialidad = %s
+        WHERE codigo_esp_med = %s
+    """, (idUsuario, idEspecialidad, codigo))
     mysql.connection.commit()
     return jsonify({"informacion":"Registro actualizado"})
 
@@ -609,10 +619,10 @@ def updateEsp_medico(id):
 
 #QUERY PARA ELIMINAR
 @cross_origin()
-@app.route('/deleteEsp_medico/<id>', methods = ['DELETE'])
-def deleteEsp_medico(id):
+@app.route('/deleteEsp_medico/<codigo>', methods = ['DELETE'])
+def deleteEsp_medico(codigo):
     cur = mysql.connection.cursor()
-    cur.execute('DELETE FROM especialidad_medico WHERE idEspecialidad_medico = %s', (id))
+    cur.execute("DELETE FROM especialidad_medico WHERE codigo_esp_med = '%s'" %codigo)
     mysql.connection.commit()
     return jsonify({"informacion":"Registro eliminado"})
 

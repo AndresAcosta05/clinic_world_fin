@@ -70,7 +70,6 @@ export class ClientePage implements OnInit {
     if (window.confirm(`Desea Eliminar a ${nombre} ${apellido}?`)) {
       this.clientesService.Eliminar(documento).subscribe(() => {
         this.alerta('warning', 'Registro Eliminado Correctamente');
-        this.formClientes.reset();
         this.getClientes();
       });
     }
