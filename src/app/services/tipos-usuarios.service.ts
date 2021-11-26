@@ -21,8 +21,8 @@ export class TiposUsuariosService {
     return this.http.post(`${this.url}addTipo`, tipo_usuarios);
   }
 
-  Actualizar(nombre: any, descripcion: any) {
-    return this.http.put(`${this.url}/updateTipo/` + descripcion, nombre);
+  Actualizar(codigo: any, tipo_usuarios: any) {
+    return this.http.put(`${this.url}/updateTipo/` + codigo, tipo_usuarios);
   }
 
   Eliminar(id: any) {

@@ -10,7 +10,7 @@ CORS(app)
 #MYSQL Connection
 app.config['MYSQL_HOST'] = 'localhost'
 app.config['MYSQL_USER'] = 'root'
-app.config['MYSQL_PASSWORD'] = '1706'
+app.config['MYSQL_PASSWORD'] = 'root'
 app.config['MYSQL_DB'] = 'clinic_world'
 mysql = MySQL(app)
 #llave de encriptado
@@ -137,7 +137,7 @@ def updateTipo(id):
         UPDATE tipo_usuarios
         SET nombre = %s,
             descripcion = %s
-        WHERE idTipo_usuario = %s
+        WHERE codigo_tipo_us = %s
     """, (nombre, descripcion, id))
     mysql.connection.commit()
     return jsonify({"informacion":"Registro actualizado"})
@@ -422,7 +422,7 @@ def updateCliente(documento):
 def deleteCliente(documento):
     # print(type(documento))
     con = mysql.connection.cursor()
-    con.execute("DELETE FROM clientes WHERE numero_documento = %s" %documento)
+    con.execute("DELETE FROM clientes WHERE numero_documento = '%s'" %documento)
     mysql.connection.commit()
     return jsonify({"informacion":"Registro eliminado"})
 

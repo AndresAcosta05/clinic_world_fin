@@ -54,8 +54,8 @@ export class TiposUsuariosPage implements OnInit {
     }
   }
 
-  actualizarTipoUsuario(nombre: any, descripcion: any) {
-    this.TiposUsuariosService.Actualizar(nombre, descripcion,).subscribe(() => {
+  actualizarTipoUsuario(tipoUsuario: any) {
+    this.TiposUsuariosService.Actualizar(this.documento, tipoUsuario).subscribe(() => {
       this.alerta('Excelente', 'Registro Actualizado Correctamente');
       this.formTipo_usuario.reset();
       this.gettipousuarios();
