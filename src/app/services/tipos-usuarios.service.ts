@@ -17,16 +17,16 @@ export class TiposUsuariosService {
     return this.http.get(`${this.url}getAlltipo`);
   }
 
-  Insertar(tipousuario: any): Observable<any> {
-    return this.http.post(`${this.url}addtipo_usuarios`, tipousuario);
+  Insertar(tipo_usuarios: any): Observable<any> {
+    return this.http.post(`${this.url}addTipo`, tipo_usuarios);
   }
 
   Actualizar(nombre: any, descripcion: any) {
-    return this.http.put(`${this.url}/updatetipo_usuarios/` + descripcion, nombre);
+    return this.http.put(`${this.url}/updateTipo/` + descripcion, nombre);
   }
 
-  Eliminar(nombre: any) {
-    return this.http.delete(`${this.url}deletetipo_usuarios/${nombre}`);
+  Eliminar(id: any) {
+    return this.http.delete(`${this.url}deleteTipo${id}`);
   } 
 }
 
