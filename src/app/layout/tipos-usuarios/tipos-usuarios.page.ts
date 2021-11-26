@@ -25,7 +25,6 @@ export class TiposUsuariosPage implements OnInit {
     this.formTipo_usuario = this.formBuilder.group({
       nombre: ['', Validators.required],
       descripcion: ['', Validators.required]
-      
     });
 
    }
@@ -63,21 +62,20 @@ export class TiposUsuariosPage implements OnInit {
     });
   }
 
-  eliminarTiposUsuarios(documento: number, nombre,  descripcion) {
-    if (window.confirm(`Desea Eliminar a ${nombre} ${descripcion}?`)) {
-      this.TiposUsuariosService.Eliminar(documento).subscribe(() => {
-        this.alerta('warning', 'Registro Eliminado Correctamente');
+  eliminarTiposUsuarios(codigo, nombre) {
+    if (window.confirm(`Desea Eliminar ${nombre}?`)) {
+      this.TiposUsuariosService.Eliminar(codigo).subscribe(() => {
+        this.alerta('Excelente', 'Registro Eliminado Correctamente');
         this.gettipousuarios();
       });
     }
   }
 
   seleccionar(tipo_usuarios: any) {
-    this.documento = tipo_usuarios.nombre;
+    this.documento = tipo_usuarios.codigo_tipo_us;
     this.formTipo_usuario.setValue({
-      tipo_documento: tipo_usuarios .nombre,
-      numero_documento: tipo_usuarios.descripcion,
-      
+      nombre: tipo_usuarios.nombre,
+      descripcion: tipo_usuarios.descripcion
     });
   }
 

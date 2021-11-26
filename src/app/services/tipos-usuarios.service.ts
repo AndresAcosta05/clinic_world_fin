@@ -26,7 +26,7 @@ export class TiposUsuariosService {
   }
 
   Eliminar(id: any) {
-    return this.http.delete(`${this.url}deleteTipo${id}`);
+    return this.http.delete(`${this.url}deleteTipo/${id}`);
   } 
 }
 
