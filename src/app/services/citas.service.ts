@@ -7,7 +7,7 @@ import { Observable } from 'rxjs';
 })
 export class CitasService {
 
-  url = 'http://127.0.0.1:3000/';
+  url = 'https://clinicworld.pythonanywhere.com/'; 
 
   constructor(
     private http: HttpClient

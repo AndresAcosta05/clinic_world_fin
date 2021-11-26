@@ -10,7 +10,7 @@ CORS(app)
 #MYSQL Connection
 app.config['MYSQL_HOST'] = 'localhost'
 app.config['MYSQL_USER'] = 'root'
-app.config['MYSQL_PASSWORD'] = 'root'
+app.config['MYSQL_PASSWORD'] = ''
 app.config['MYSQL_DB'] = 'clinic_world'
 mysql = MySQL(app)
 #llave de encriptado
@@ -18,7 +18,7 @@ app.secret_key = "mysecretkey"
 
 
 #PRINCIPAL
-@cross_origin()
+
 @app.route('/', methods=['GET'])
 def index():
     return jsonify(
@@ -149,7 +149,7 @@ def updateTipo(id):
 @app.route('/deleteTipo/<codigo>', methods = ['DELETE'])
 def deleteTipo(codigo):
     cur = mysql.connection.cursor()
-    cur.execute("DELETE FROM tipo_Usuarios WHERE codigo_tipo_us = '%s'" %codigo)
+    cur.execute("DELETE FROM tipo_usuarios WHERE codigo_tipo_us = '%s'" %codigo)
     mysql.connection.commit()
     return jsonify({"informacion":"Registro eliminado"})
 
@@ -720,9 +720,13 @@ def addCitas():
         #CREAMOS ESTA CONSULTA PARA TRAER EL ULTIMO ID PARA LA LLAVE UNICA
         con.execute('SELECT CONCAT( "CIT", MAX(LAST_INSERT_ID(idCitas)) +1) FROM citas')
         res = con.fetchall()
+        if(res[0][0]):
+            codigo = res[0][0]
+        else:
+            codigo = "CIT1"
         #INSERCION FINAL
         con.execute('INSERT INTO citas(idCliente, fecha_hora, idEspecialidad_medico, codigo_cita) VALUES(%s, %s, %s, %s);',
-        (idCliente, fecha_hora, idEspecialidad_medico, res[0][0]) )
+        (idCliente, fecha_hora, idEspecialidad_medico, codigo) )
         mysql.connection.commit()
         return jsonify({"informacion" : "Dato Insertado Correctamente"})
 

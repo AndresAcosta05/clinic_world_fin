@@ -6,7 +6,7 @@ import { Observable } from 'rxjs';
 })
 export class TiposUsuariosService {
 
-  url = "http://127.0.0.1:3000/";
+  url = 'https://clinicworld.pythonanywhere.com/'; 
 
 
   constructor(
