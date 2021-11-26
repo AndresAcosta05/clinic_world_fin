@@ -19,10 +19,10 @@ export class EspecialidadesService {
   Insertar(especialidad:any): Observable<any>{
     return this.http.post(`${this.url}addEspecialidad`, especialidad);
   }
-  Actualizar (especialidad:any,id: number): Observable<any>{
-    return this.http.put(`${this.url}/updateEspecialidad/` + id, especialidad);
+  Actualizar (especialidad:any,codigo): Observable<any>{
+    return this.http.put(`${this.url}/updateEspecialidad/` + codigo, especialidad);
   }
-  Eliminar(id :number){
-    return this.http.delete(`${this.url}/deleteEspecialidad/${id}` );
+  Eliminar(codigo){
+    return this.http.delete(`${this.url}/deleteEspecialidad/${codigo}` );
   }
 }

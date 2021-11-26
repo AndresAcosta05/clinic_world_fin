@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AlertController } from '@ionic/angular';
+
 import { EspecialidadesService } from 'src/app/services/especialidades.service';
 
 @Component({
@@ -30,8 +31,10 @@ export class EspecialidadPage implements OnInit {
   }
   
 getEspecilidad(){
+  
   this.especialidadService.getEspecialidades().subscribe(data =>{
     this.especialidadList = data ? data : [];
+   
   });
 }
 
@@ -42,6 +45,7 @@ insertEspecialidad(especialidad){
     this.especialidadService.Insertar(especialidad).subscribe(() =>{
    this.formEspecialidad.reset();
    this.alerta('Excelente','Registro insertado')
+   this.getEspecilidad();
    
     });
   }else{
@@ -49,7 +53,33 @@ insertEspecialidad(especialidad){
   }
 
 }
- 
+ actualizarEspecialidad(especialidad:any){
+   this.especialidadService.Actualizar(especialidad,this.id).subscribe(()=>{
+     this.alerta('Excelente','Registrado');
+     this.formEspecialidad.reset();
+     this.getEspecilidad();
+     
+   });
+ }
+
+ eliminarEspecialidad(codigo, nombre){
+   console.log(codigo);
+   
+   if(window.confirm(`Desea eliminar a ${nombre} ?`)){
+     this.especialidadService.Eliminar(codigo).subscribe(()=>{
+    this.alerta('Warning','Registro eliminado correctamente')
+    this.getEspecilidad();
+     });
+   }
+ }
+ seleccionar(especialidad:any){
+   console.log(especialidad);
+   this.id = especialidad.codigo_especialidad;
+   this.formEspecialidad.setValue({
+     nombre: especialidad.nombre,
+     descripcion: especialidad.descripcion
+   })
+ }
 //archivo alerta
 async alerta(titulo, texto) {
   const alert = await this.alertController.create({
