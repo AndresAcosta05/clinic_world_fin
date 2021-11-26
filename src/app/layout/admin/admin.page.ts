@@ -12,7 +12,6 @@ export class AdminPage implements OnInit {
     { title: 'Clientes', url: '/cliente', icon: 'man' },
     { title: 'Especialidades', url: '/especialidad', icon: 'medical' },
     { title: 'Asignar Especialidades', url: '/especialidad-medico', icon: 'person-add' },
-    { title: 'Medicos', url: '/medicos', icon: 'medkit' },
     { title: 'Tipos Usuarios', url: '/tipos-usuarios', icon: 'keypad' },
     { title: 'Usuarios', url: '/usuarios', icon: 'person' }
   ];

@@ -10,7 +10,7 @@ CORS(app)
 #MYSQL Connection
 app.config['MYSQL_HOST'] = 'localhost'
 app.config['MYSQL_USER'] = 'root'
-app.config['MYSQL_PASSWORD'] = '1706'
+app.config['MYSQL_PASSWORD'] = ''
 app.config['MYSQL_DB'] = 'clinic_world'
 mysql = MySQL(app)
 #llave de encriptado
@@ -69,7 +69,8 @@ def getAlltipo():
             content = {
                 'idTipo_usuario': result[0],
                 'nombre': result[1],
-                'descripcion': result[2]
+                'descripcion': result[2],
+                'codigo_tipo_us': result[3]
             }
             payload.append(content)
             content = {}
@@ -111,7 +112,15 @@ def addTipo():
         nombre = request.json['nombre'],
         descripcion = request.json['descripcion']
         con = mysql.connection.cursor()
-        con.execute("INSERT INTO tipo_usuarios(nombre, descripcion) VALUES (%s, %s)", (nombre, descripcion))
+        #CREAMOS ESTA CONSULTA PARA TRAER EL ULTIMO ID PARA LA LLAVE UNICA
+        con.execute('SELECT CONCAT( "TPU", MAX(LAST_INSERT_ID(idTipo_usuario)) +1) FROM tipo_usuarios')
+        res = con.fetchall()
+        print(res)
+        if(res[0][0]):
+            codigo = res[0][0]
+        else:
+            codigo = "ESPMED1"
+        con.execute("INSERT INTO tipo_usuarios(nombre, descripcion, codigo_tipo_us) VALUES (%s, %s, %s)", (nombre, descripcion, codigo))
         mysql.connection.commit()
         return jsonify({"Mensaje" : "Dato Insertado Correctamente"})
 
@@ -137,10 +146,10 @@ def updateTipo(id):
 
 #QUERY PARA ELIMINAR
 @cross_origin()
-@app.route('/deleteTipo/<id>', methods = ['DELETE'])
-def deleteTipo(id):
+@app.route('/deleteTipo/<codigo>', methods = ['DELETE'])
+def deleteTipo(codigo):
     cur = mysql.connection.cursor()
-    cur.execute('DELETE FROM tipo_Usuarios WHERE idTipo_usuario = %s', (id))
+    cur.execute("DELETE FROM tipo_Usuarios WHERE codigo_tipo_us = '%s'" %codigo)
     mysql.connection.commit()
     return jsonify({"informacion":"Registro eliminado"})
 
@@ -443,7 +452,7 @@ def getAllespecialidad():
             content = {}
         return jsonify(payload)
     else:
-        return jsonify('No hay Informacion Agregada Aun')
+        return jsonify([])
 
 
 #QUERY CONSULTAR POR ID

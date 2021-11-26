@@ -1,1 +1,65 @@
-<app-header [title]="nombre"></app-header>
+<ion-app>
+    <ion-content>
+        <div class="contenedor">
+            <app-header [title]="nombre"></app-header>
+            <form class="formulario" [formGroup]="formCitas">
+                <ion-avatar class="centrar">
+                    <img src="https://gravatar.com/avatar/dba6bae8c566f9d4041fb9cd9ada7741?d=identicon&f=y">
+                </ion-avatar>
+                <ion-item>
+                    <ion-label>Cliente</ion-label>
+                    <select formControlName="idCliente">
+                        <option *ngFor="let cliente of clientesList" value="{{cliente.idCliente}}">{{ cliente.nombre }} {{
+                            cliente.apellido }}</option>
+                    </select>
+                </ion-item>
+                <ion-item>
+                    <ion-label>Medico - Area</ion-label>
+                    <select formControlName="idEspecialidad_medico">
+                        <option *ngFor="let asignacion of asignacionesList"
+                            value="{{asignacion.idEspecialidad_medico}}">{{ asignacion.medico }} - {{ asignacion.especialidad }}</option>
+                    </select>
+                </ion-item>
+                <ion-item>
+                    <ion-label position="floating">Fecha</ion-label>
+                    <ion-input type="datetime-local" formControlName="fecha_hora"></ion-input>
+                </ion-item>
+                <ion-item>
+                    <section>
+                        <ion-button color="success" (click)="insertCita(formCitas.value)">Guardar
+                        </ion-button>
+                        <ion-button color="primary" (click)="updateCita(formCitas.value)">Actualizar
+                        </ion-button>
+                    </section>
+                </ion-item>
+            </form>
+            <ion-list>
+                <ion-list-header>
+                    <ion-toolbar>
+                        <header class="titulo">Citas Registrados</header>
+                        <!-- <ion-button slot="end" size="small" color="success" fill="solid">Registrar Nuevo</ion-button> -->
+                    </ion-toolbar>
+                </ion-list-header>
+
+                <ion-item *ngFor="let cita of citasList">
+                    <ion-toolbar>
+                        <ion-avatar slot="start">
+                            <img src="https://gravatar.com/avatar/dba6bae8c566f9d4041fb9cd9ada7741?d=identicon&f=y">
+                        </ion-avatar>
+                        <ion-label>
+                            <h3>Cliente:{{ cita.cliente }}</h3>
+                            <h3>Encargado: {{ cita.medico }}</h3>
+                            <h3>Area: {{ cita.especialidad }}</h3>
+                            <h3>Fecha: {{ cita.fecha }}</h3>
+                        </ion-label>
+                        <ion-button (click)="seleccionar(cita)" slot="end" size="small" color="primary"
+                            fill="solid">Editar</ion-button>
+                        <ion-button
+                            (click)="deleteCita(cita.codigo, cita.cliente, cita.fecha)"
+                            slot="end" size="small" color="danger" fill="solid">Eliminar</ion-button>
+                    </ion-toolbar>
+                </ion-item>
+            </ion-list>
+        </div>
+    </ion-content>
+</ion-app>
