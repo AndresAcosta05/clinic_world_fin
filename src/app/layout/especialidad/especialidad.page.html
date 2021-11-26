@@ -1,1 +1,47 @@
-<app-header [title]="nombre"></app-header>
+<ion-app>
+    <ion-content fullscreen>
+        <div class="contenedor">
+            <app-header [title]="nombre"></app-header>
+            <form class="formulario" [formGroup]="formEspecialidad">
+                <ion-avatar class="centrar">
+                    <img src="https://gravatar.com/avatar/dba6bae8c566f9d4041fb9cd9ada7741?d=identicon&f=y">
+                  </ion-avatar>
+                  <ion-item>
+                      <ion-label position="floating">Nombre de la Especialidad</ion-label>
+                        <ion-input formControlName="nombre"></ion-input> 
+                  </ion-item>
+                  <ion-item>
+                    <ion-label position="floating">Descripcion de la Especialidad</ion-label>
+                      <ion-input formControlName="descripcion"></ion-input> 
+                </ion-item>
+                <section class="centrar">
+                   
+                    <ion-button color="success" (click)="insertEspecialidad(formEspecialidad.value)">Guardar</ion-button>
+                    <ion-button color="primary" (click)="actualizarEspecialidad(formEspecialidad.value)">Actualizar</ion-button>
+                </section>
+                <ion-list>
+                    <ion-list-header>
+                        <ion-toolbar>
+                            <header class="titulo"> Especialidad Registrada</header>
+                        </ion-toolbar>
+                    </ion-list-header>
+                    <ion-item *ngFor="let especialidad of especialidadList">
+                        <ion-toolbar>
+                            <ion-avatar slot="start">
+                                <img src="https://gravatar.com/avatar/dba6bae8c566f9d4041fb9cd9ada7741?d=identicon&f=y">
+                            </ion-avatar>
+                            <ion-label>
+                                <h3>Nombre:{{especialidad.nombre}}</h3>
+                                <h3>Descripcion:{{especialidad.descripcion}}</h3>
+                                <ion-button (click)="seleccionar(especialidad)" slot="end" size="small"
+                                color="primary" fill="solid">Editar</ion-button>
+                                <ion-button (click)="eliminarEspecialidad(especialidad.nombre, especialidad.descripcion)"
+                                slot= "end" size="small" color="danger" fill="solid">Eliminar</ion-button>
+                            </ion-label>
+                        </ion-toolbar>
+                    </ion-item>
+                </ion-list>
+            </form>
+        </div>
+    </ion-content>
+</ion-app>
